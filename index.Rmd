@@ -1,0 +1,220 @@
+---
+title: '"You have a unique and rare name": How rare and unique is my name really?'
+author: Dominik Freunberger
+output: 
+  hrbrthemes::ipsum:
+    code_folding: hide
+    toc: false
+  md_document: default
+editor_options:
+  chunk_output_type: inline
+  markdown:
+    wrap: 60
+---
+### by [Dominik Freunberger](https://dmnkfr.netlify.app/)
+
+![](minime.JPG "feet and hand")
+
+</br></br>
+
+|       ___Dominik, you have a unique and rare name...___
+
+</br>
+
+I've heard that sentence once too and became slightly skeptical. So I got the data from [Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) and to see if there's something to it. More specifically, I tried to answer the following questions:
+
+- How rare was my name when I was born and how did it change over the years?
+- How did the most and least popular names in my birth year develop over time?
+- What would my female* name be solely based on popularity in my birth year?
+- What's the most popular name over all the years?
+
+Finally, I'll also build a little app so you can see 
+
+* Please note that Statistik Austria uses a binary classification for the names and the associated data, and there is [criticism](https://www.nytimes.com/2018/10/25/opinion/sex-biology-binary.html) from many fields regarding this approach.
+
+```{r setup, message = F}
+library(tidyverse)
+library(knitr)
+library(lubridate)
+library(readxl)
+library(ggrepel)
+library(ggpubr)
+library(hrbrthemes)
+library(shiny)
+
+my_red = "#DC2F1E"
+```
+
+[Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) provides the __top 60 names__ for the years __1984 through 2020__. I'm born 1986, so I'll get my birth year but not much before that. 
+
+```{r read-and-tidy-data, message=FALSE, warning=FALSE}
+file = "statistik_der_60_haeufigsten_vornamen_1984-2020_in_oesterreich_-_etymologi.xlsx"
+names = read_xlsx(file, skip = 3)
+
+# it's the top 60 names from 1984 to 2020
+# Important: Some years have multiple rank 60s.
+
+names %<>%
+  rename(boys_rank = "Rang...1",
+         boys_name = "Vorname...2" ,
+         boys_absolute = "Absolut...3" ,
+         boys_percent = "in %...4",
+         boys_cumulative = "% kumulativ...5",
+         girls_rank = "Rang...6",
+         girls_name = "Vorname...7",
+         girls_absolute = "Absolut...8",
+         girls_percent = "in %...9",
+         girls_cumulative = "% kumulativ...10") %>%
+  mutate(boys_rank = as.numeric(boys_rank),
+         year = boys_rank,
+         year = ifelse(year < 61, NA, year)) %>%
+  fill(year) %>% 
+  # at the botton we have summaries for 1984-2010 and 2010-2020
+  slice_head(n= 2273) %>% 
+  filter(boys_rank < 61)
+
+boys = names %>% 
+  select(11, 1:5) %>% 
+  rename_all(
+      funs(stringr::str_replace_all(., 'boys_', ''))) %>% 
+  mutate(sex = "boys")
+
+girls = names %>% 
+  select(11, 6:10) %>% 
+  rename_all(
+      funs(stringr::str_replace_all(., 'girls_', ''))) %>% 
+    mutate(sex = "girls")
+
+names = rbind(girls, boys) %>%
+  mutate(percent = round(percent, 2),
+         cumulative = round(cumulative, 2))
+# now we have a tidy df, yay!
+```
+
+### Is "Dominik" even part of this list?
+Since we get only the 60 most popular names per year, my name has to be at least the 60th most popular in any given year to be in this list (which is already quite popular, given that in 2020 babies in Austria got [1772 different first names](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html)). Let's see.
+
+```{r check-name}
+names %>% 
+  filter(name == "Dominik") %>% 
+  kable()
+```
+
+We can see that it's not only in the data but __in every single year__ (which makes it already consistently popular). Let's see how this developed over time.
+
+### Popularity of "Dominik" from 1984 to 2020
+
+```{r plot1, fig.dim=c(9,5), warning=FALSE, message=FALSE}
+names %>%
+  filter(name == "Dominik") %>% 
+  ggplot(aes(x = year, y = percent)) +
+  geom_line(size = .5, alpha = .5) +
+  geom_point(shape = 1, size = 4, color = my_red, alpha = 2/3) +
+  geom_point(data = . %>% filter(percent == max(percent)), color = my_red, size = 5) +
+  geom_point(data = . %>% filter(percent == min(percent)), color = my_red, size = 5) +
+  geom_point(data = . %>% filter(year == 1986), color = my_red, size = 5) +
+  geom_text(data = . %>% 
+              filter(percent == min(percent)), 
+              aes(label = paste0(as.character(year), ":")), hjust = 1.1, vjust = -1.6) +
+  geom_text(data = . %>% 
+              filter(percent == min(percent)), 
+              aes(label = paste0(as.character(percent), "%")), hjust = 0, vjust = -1.6) +
+  geom_text(data = . %>% 
+              filter(percent == max(percent)), 
+              aes(label = paste0(as.character(year), ":")), hjust = -0.2) +
+  geom_text(data = . %>% 
+              filter(percent == max(percent)), 
+              aes(label = paste0(as.character(percent), "%")), hjust = -1.1) +
+  geom_text(data = . %>% 
+              filter(year == 1986), 
+              aes(label = paste0(as.character(year), ":")), hjust = -0.9) +
+  geom_text(data = . %>% 
+              filter(year == 1986), 
+              aes(label = paste0(as.character(percent), "%")), hjust = -1.8) +
+  labs(title = "How frequent is the name Dominik?", 
+       subtitle = "Proportion of boys in Austria named Dominik by year",
+       y = "Proportion in %", 
+       x = "Year") +
+  theme_ft_rc()
+
+```
+
+### Rank compared with best and worst of 1986
+```{r plot2, fig.dim=c(9,5), warning=FALSE, message=FALSE}
+names %>% 
+  filter(year == 1986 & rank == 1 & sex == "boys"  | year == 1986 & rank == 60 & sex == "boys") %>% 
+  kable()
+
+names %>%
+  drop_na() %>% 
+  ggplot(aes(x = year, y = rank)) +
+    geom_line(data = . %>% filter(name == "Stefan"),size = .5, alpha = .5) + 
+  geom_line(data = . %>% filter(name == "Tobias"),size = .5, alpha = .5) + 
+  geom_line(data = . %>% filter(name == "Dominik"),size = .5, alpha = .5, color = my_red) +
+  geom_point(data = . %>% filter(name == "Dominik" & year == 1986), color = my_red, size = 5) +
+  geom_point(data = . %>% filter(name == "Tobias" & year == 1986), size = 5) +
+  geom_point(data = . %>% filter(name == "Stefan" & year == 1986), size = 5) +
+  geom_point(data = . %>% filter(year == 1994 & name == "Dominik"), color = my_red, size = 5) +
+  geom_point(data = . %>% filter(year == 2019 & name == "Dominik"), color = my_red, size = 5) +
+  geom_text(data = . %>% 
+              filter(year == 2019 & name == "Dominik"), 
+              aes(label = paste0(as.character(year), ": Rank ", as.character(rank))), hjust = 0.9, vjust = 2) +
+  geom_text(data = . %>% 
+              filter(year == 1986 & name == "Dominik"), 
+              aes(label = paste0(as.character(year), ": Rank ", as.character(rank))), hjust = -0.2) +
+  geom_text(data = . %>% 
+              filter(year == 1994 & name == "Dominik"), 
+              aes(label = paste0(as.character(year), ": Rank ", as.character(rank))), hjust = -0.1, vjust = -0.5) +
+  geom_text(data = . %>% 
+              filter(year == 1986 & name == "Stefan"), 
+              aes(label = name), hjust = -0, vjust = 1.8) +
+  geom_text(data = . %>% 
+              filter(year == 1986 & name == "Tobias"), 
+              aes(label = name), hjust = -0.1, vjust = -0.5) +
+  labs(title = "How does the name Dominik rank and compare\nover the years?", 
+       subtitle = "Ranks of the names Dominik, Stefan, and Tobias by year",
+       y = "Rank", 
+       x = "Year") +
+  scale_y_reverse()+
+  theme_ft_rc()
+
+```
+
+
+### What would be my girl name based on popularity?
+```{r plot3, fig.dim=c(9,5), warning=FALSE, message=FALSE}
+names %>% 
+  filter(year == 1986 & rank == 20 & sex == "girls") %>% 
+  kable()
+
+names %>%
+  drop_na() %>% 
+  ggplot(aes(x = year, y = rank)) +
+  geom_line(data = . %>% filter(name == "Bettina"),size = .5, alpha = .5, color = my_red) +
+  geom_point(data = . %>% filter(name == "Bettina" & year == 1986), color = my_red, size = 5) +
+  geom_point(data = . %>% filter(year == 1997 & name == "Bettina"), color = my_red, size = 5) +
+  geom_text(data = . %>% 
+              filter(year == 1997 & name == "Bettina"), 
+              aes(label = paste0(as.character(year), ": Rank ", as.character(rank))), hjust = 0.9, vjust = -1.2) +
+  geom_text(data = . %>% 
+              filter(year == 1986 & name == "Bettina"), 
+              aes(label = paste0(as.character(year), ": Rank ", as.character(rank))), hjust = 0, vjust = 2.2) +
+  labs(title = "How does the name Bettina rank over the years?", 
+       subtitle = "Ranks of the names Dominik, Stefan, and Tobias by year",
+       y = "Rank", 
+       x = "Year") +
+  scale_y_reverse()+
+  theme_ft_rc()
+
+```
+
+```{r plot4, fig.dim=c(9,5), warning=FALSE, message=FALSE}
+
+names %>% group_by(name) %>% summarize(total = sum(percent)) %>% arrange(desc(total)) %>% top_n(10) %>%  kable()
+
+```
+
+```{r shiny-app}
+
+```
+
