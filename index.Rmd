@@ -1,5 +1,5 @@
 ---
-title: '"You have a unique and rare name": How rare and unique is my name really?'
+title: 'You have a unique and rare name: How rare and unique is my name really?'
 author: Dominik Freunberger
 output: 
   hrbrthemes::ipsum:
@@ -29,7 +29,7 @@ I've heard that sentence once too often and became slightly skeptical. So I got 
 - What would my female* name be solely based on popularity in my birth year?
 - What's the most popular name over all the years?
 
-Finally, I'll also build a little app so you can see 
+At the very bottom of this page, you can see __how your name's popularity changed over the years!__
 
 \* Please note that Statistik Austria uses a binary classification for the names and the associated data, and there is [criticism](https://www.nytimes.com/2018/10/25/opinion/sex-biology-binary.html) from many fields regarding this approach.
 
@@ -42,6 +42,8 @@ library(ggrepel)
 library(ggpubr)
 library(hrbrthemes)
 library(shiny)
+library(bslib)
+
 
 my_red = "#DC2F1E"
 sonic_blue = "#C3DADC"
@@ -104,9 +106,9 @@ names %>%
 
 We can see that it's not only in the data but __in every single year__ (which makes it already consistently popular). Let's see how this developed over time.
 
-### Popularity of "Dominik" from 1984 to 2020: Rise and fall of a name
+### Popularity of the name Dominik from 1984 to 2020: Rise and fall
 
-Below you see the proportion of boys named Dominik from 1984-2020, with my birth year and the most and least popular year highlighted.
+Below you see the proportion of boys named Dominik from 1984-2020, with my birth year and the most and least popular year highlighted and labeled.
 
 ```{r plot1, fig.dim=c(9,5), warning=FALSE, message=FALSE}
 names %>%
@@ -282,6 +284,10 @@ unique_names = names %>% drop_na() %>% select(name) %>% distinct() %>%  arrange(
 shinyApp(
 
   ui = fluidPage(
+        theme = bs_theme(
+        bg = "white", fg = "#AE2223", primary = "black",
+        base_font = font_google("Roboto Condensed")
+    ),
     # Application title
         titlePanel("Given names in Austria between 1984 and 2020"),
         
@@ -327,3 +333,6 @@ server = function(input, output) {
 
 ```
 
+Note that the rank as well as the proportion are per sex group.
+
+If you have any questions or feedback, don't hesitate to [__contact me.__](https://dmnkfr.netlify.app/)
