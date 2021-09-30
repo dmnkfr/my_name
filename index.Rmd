@@ -29,7 +29,7 @@ I've heard that sentence once too often and became slightly skeptical. So I got 
 - What would my female* name be solely based on popularity in my birth year?
 - What's the most popular name over all the years?
 
-At the very bottom of this page, you can see __how your name's popularity changed over the years!__
+I also made a little [app](https://dmnkfr.shinyapps.io/my_name_your_name/) in which you can check __your own name's popularity!__
 
 \* Please note that Statistik Austria uses a binary classification for the names and the associated data, and there is [criticism](https://www.nytimes.com/2018/10/25/opinion/sex-biology-binary.html) from many fields regarding this approach.
 
@@ -43,7 +43,6 @@ library(ggpubr)
 library(hrbrthemes)
 library(shiny)
 library(bslib)
-
 
 my_red = "#DC2F1E"
 sonic_blue = "#C3DADC"
@@ -274,65 +273,8 @@ __Anna, leading the field since 1997, Lukas, leading the field since 1996.__ To 
 
 We've seen quite some different trends over time. The rise and fall of Dominik, the rise of Tobias and the fall of Stefan, the steep decline of Bettina, and the increase to the permanent top of Anna and Lukas. But back to the initial question if Dominik indeed is a rare name: Nes. Yo. While it was somewhat popular-ish when I was born (rank 20), it had a steep rise in popularity, peaking at being the 4^th^ most popular name for boys in Austria in 1994. Now, 27 later, the name is struggling to stay in the top 60 list.
 
-### If you wanna look at your own or other names and how they developed between 1984 and 2020 in Austria, just chose a name below and see!
+### Check your own name's poopularity!
 
-```{r shiny-app}
-
-# TODO: Chose name, rank or percent over time, 
-unique_names = names %>% drop_na() %>% select(name) %>% distinct() %>%  arrange(name)
-
-shinyApp(
-
-  ui = fluidPage(
-        theme = bs_theme(
-        bg = "white", fg = "#AE2223", primary = "black",
-        base_font = font_google("Roboto Condensed")
-    ),
-    # Application title
-        titlePanel("Given names in Austria between 1984 and 2020"),
-        
-        sidebarLayout(
-            sidebarPanel(
-                selectInput("name", "Name:", choices = unique_names, selected = "Dominik"),
-                selectInput("measure", "Measure:", choices = c("Rank", "Absolute", "Percent"), selected = "Absolute")
-
-                        ),
-        
-            # Show a plot of the generated distribution
-            mainPanel(
-               plotOutput("name_plot")
-                    )
-    
-                    )
-  ),
-  
-server = function(input, output) {
-        output$name_plot = renderPlot({
-            
-            input_name = input$name
-            input_measure = tolower(input$measure)
-
-        names %>%
-            drop_na() %>% 
-            filter(name == input_name) %>% 
-                ggplot(aes(x = year, y = get(input_measure))) +
-                    geom_line(color = my_red, size = 1.5) +
-                    labs(title = paste0("Popularity of the name ", input_name, " in Austria per year"), 
-                         y = input_measure, 
-                         x = "Year") +
-                    xlim(1980,2020) +
-                    theme_ipsum() 
-              
-      
-    })
-  },
-
-  options = list(height = 500)
-)
-
-
-```
-
-Note that the rank as well as the proportion are per sex group.
+If you wanna look at your own or other names and how they developed between 1984 and 2020 in Austria, have a look at the little [app I made.](https://dmnkfr.shinyapps.io/my_name_your_name/)
 
 If you have any questions or feedback, don't hesitate to [__contact me.__](https://dmnkfr.netlify.app/)

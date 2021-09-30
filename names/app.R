@@ -8,13 +8,17 @@
 #
 
 library(shiny)
-
-
-unique_names = names %>% drop_na() %>% select(name) %>% distinct() %>%  arrange(name)
+library(tidyverse)
+library(ggplot2)
+library(bslib)
+unique_names = names %>% select(name) %>% distinct() %>% drop_na() %>% arrange(name)
 
 ui = fluidPage(
+        theme = bs_theme(
+        primary = "black"
+    ),
     # Application title
-        titlePanel("Given names in Austria between 1984 and 2020"),
+        titlePanel("Popularity of names in Austria between 1984 and 2020"),
         
         sidebarLayout(
             sidebarPanel(
@@ -42,7 +46,7 @@ server = function(input, output) {
             filter(name == input_name) %>% 
                 ggplot(aes(x = year, y = get(input_measure))) +
                     geom_line(color = my_red, size = 1.5) +
-                    labs(title = paste0("Popularity of the name ", input_name, " \nin Austria per year"), 
+                    labs(title = paste0("Popularity of the name ", input_name, " in Austria per year"),
                          y = input_measure, 
                          x = "Year") +
                     xlim(1980,2020) +
