@@ -5,12 +5,10 @@ output:
   hrbrthemes::ipsum:
     code_folding: hide
     toc: false
-  md_document: default
 editor_options:
   chunk_output_type: inline
   markdown:
     wrap: 60
-runtime: shiny
 ---
 ### by [Dominik Freunberger](https://dmnkfr.netlify.app/)
 
