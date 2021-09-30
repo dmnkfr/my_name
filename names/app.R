@@ -11,11 +11,19 @@ library(shiny)
 library(tidyverse)
 library(ggplot2)
 library(bslib)
-unique_names = names %>% select(name) %>% distinct() %>% drop_na() %>% arrange(name)
+library(hrbrthemes)
+hrbrthemes::import_roboto_condensed()
+
+my_red = "#DC2F1E"
+
+data = readRDS("all_name_data.RDS")
+unique_names = readRDS("unique_names.RDS") %>% arrange(name)
 
 ui = fluidPage(
         theme = bs_theme(
-        primary = "black"
+                  bg = "#252933", 
+                  fg = "white", 
+                  primary = "white"
     ),
     # Application title
         titlePanel("Popularity of names in Austria between 1984 and 2020"),
@@ -41,7 +49,7 @@ server = function(input, output) {
             input_name = input$name
             input_measure = tolower(input$measure)
 
-        names %>%
+        data %>%
             drop_na() %>% 
             filter(name == input_name) %>% 
                 ggplot(aes(x = year, y = get(input_measure))) +
@@ -50,7 +58,7 @@ server = function(input, output) {
                          y = input_measure, 
                          x = "Year") +
                     xlim(1980,2020) +
-                    theme_ipsum() 
+                    theme_ft_rc()
               
       
     })
