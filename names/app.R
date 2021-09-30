@@ -37,9 +37,16 @@ ui = fluidPage(
         
             # Show a plot of the generated distribution
             mainPanel(
-               plotOutput("name_plot")
+               plotOutput("name_plot"),              
+               HTML(
+                 paste(
+                  h6("Note: Only names that were among the top 120 names in any year between 1984 and 2020 are in the list."),'<br/>',
+                  '<a href="https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html">Data from Statistik Austria.</a>', '<br/>',
+                  '<a href="https://dmnkfr.github.io/my_name/">For more info, visit https://dmnkfr.github.io/my_name/</a>', '<br/>',
+                  '<a href="https://dmnkfr.netlify.app/">For questions or feedback, please do not hesitate to contact me via https://dmnkfr.netlify.app/</a>', '<br/>'
+                      )
+                  )
                     )
-    
                     )
   )
   
