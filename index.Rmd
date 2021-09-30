@@ -195,7 +195,7 @@ Dominik was the __4^th^ most popular name for boys in Austria in 1994__. Wow. I 
 
 ### What would be my girl name based on popularity?
 
-What if my parents chose my name solely based on it's popularity? Maybe they thought "it should be _popular_ but it shouldn't be _too_ popular but also not too unpopular, something like rank 20". Well, well, here I am, Dominik. But what if I were born as a girl, what would be my name then?
+What if my parents chose my name solely based on its popularity? Maybe they thought "it should be _popular_ but it shouldn't be _too_ popular but also not too unpopular, something like rank 20". Well, well, here I am, Dominik. But what if I were born as a girl, what would be my name then?
 
 ```{r find-pendant, message=FALSE}
 names %>% 
