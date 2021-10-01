@@ -5,9 +5,9 @@ account: dmnkfr
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4768736
-bundleId: 5090448
+bundleId: 5090840
 url: https://dmnkfr.shinyapps.io/my_name_your_name/
-when: 1633022607.32849
-lastSyncTime: 1633022607.32851
+when: 1633029906.57412
+lastSyncTime: 1633029906.57413
 asMultiple: FALSE
 asStatic: FALSE

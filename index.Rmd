@@ -12,7 +12,7 @@ editor_options:
 ---
 ### by [Dominik Freunberger](https://dmnkfr.netlify.app/)
 
-![](minime.JPG "feet and hand")
+![](minime2.JPG "minime")
 
 </br></br>
 
@@ -20,12 +20,14 @@ editor_options:
 
 </br>
 
-I've heard that sentence once too often and became slightly skeptical. So I got the data from [Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) and to see if there's something to it. More specifically, I tried to answer the following questions:
+I've heard that sentence once too often. So I got the data from [Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) to see if there's something to it. 
+
+More specifically, I tried to answer the following questions:
 
 - How rare was my name when I was born and how did it change over the years?
-- How did the most and least popular names in my birth year develop over time?
-- What would my female* name be solely based on popularity in my birth year?
-- What's the most popular name over all the years?
+- How did the most and least popular names of my birth year develop over time?
+- What would be my female* name solely based on popularity in my birth year?
+- What are the most popular names over all the years?
 
 I also made a little [app](https://dmnkfr.shinyapps.io/my_name_your_name/) in which you can check [__your own name's popularity!__](https://dmnkfr.shinyapps.io/my_name_your_name/)
 
@@ -46,7 +48,7 @@ my_red = "#DC2F1E"
 sonic_blue = "#C3DADC"
 ```
 
-[Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) provides the __top 60 names__ for the years __1984 through 2020__. I'm born 1986, so I'll get my birth year but not much before that. Note that the names are _etymological_ names (as Statistik Austria calls it), meaning that the different spellings of names (Dominic, Dominique, Domenik, etc.) are collapsed to one form.
+[Statistik Austria](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html) provides the __top 60 names per sex__ for the years __1984 through 2020__. I'm born 1986, so I'll get my birth year but not much before that. Note that the names are _etymological_ names (as Statistik Austria calls it), meaning that the different spellings (Dominic, Dominique, Domenik, etc.) are collapsed to one form.
 
 ```{r read-and-tidy-data, message=FALSE, warning=FALSE}
 file = "statistik_der_60_haeufigsten_vornamen_1984-2020_in_oesterreich_-_etymologi.xlsx"
@@ -93,7 +95,8 @@ names = rbind(girls, boys) %>%
 ```
 
 ### Is "Dominik" even part of this list?
-Since we get only the 60 most popular names per year, my name has to be at least the 60th most popular in any given year to be in this list (which is already quite popular, given that in 2020 babies in Austria got [1772 different first names](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html)). Let's see.
+
+Since we get only the 60 most popular names per year adn sex, my name has to be at least the 60^th^ most popular in any given year to be in this list (which is already quite popular, given that in 2020 babies in Austria got [1772 different first names](https://www.statistik.at/web_de/statistiken/menschen_und_gesellschaft/bevoelkerung/geborene/vornamen/index.html)). Let's see.
 
 ```{r check-name}
 names %>% 
@@ -105,7 +108,7 @@ We can see that it's not only in the data but __in every single year__ (which ma
 
 ### Popularity of the name Dominik from 1984 to 2020: Rise and fall
 
-Below you see the proportion of boys named Dominik from 1984-2020, with my birth year and the most and least popular year highlighted and labeled.
+Below you see the proportion of boys named Dominik from 1984-2020, with my birth year and the most and least popular years highlighted and labeled.
 
 ```{r plot1, fig.dim=c(9,5), warning=FALSE, message=FALSE}
 names %>%
@@ -142,13 +145,13 @@ names %>%
 
 ```
 
-__Wait what?__ While I suspected that the name Dominik was more popular than I experienced it in the remote mountain village I grew up in, this pattern is quite a surprise. The steady rise and the steady fall after 1994. I tried to find external events, such as a scandal involving someone called Dominik, that could have triggered the decline after 1994 but I couldn't find anything involving a somewhat popular Dominik.
+__Wait what?__ While I suspected that the name Dominik was more popular than I experienced it in the remote mountain village I grew up in, this pattern is quite a surprise. The steady rise and the steady fall after 1994. I tried to find external events, such as scandals involving Dominiks, that could have triggered the decline after 1994 but I couldn't find anything involving a somewhat popular Dominik.
 
 Now that we know the percentage of Dominiks each year, let's see how Dominik ranked over the years.
 
-### Rank compared with best and worst of 1986
+### Rank of the name Dominik compared with the most and least popular names of 1986
 
-Here you see the popularity of Dominik based on its __rank__ (instead of percent as in the previous figure). I'll also plot the __least and most popular names of my birth year 1986__ - Tobias and Stefan - to see how they did over time.
+Here you see the popularity of Dominik based on its __rank__. I'll also plot the __least and most popular names of my birth year 1986__ - Tobias and Stefan - to see how they did over time.
 
 ```{r plot2, fig.dim=c(9,5), warning=FALSE, message=FALSE}
 names %>% 
@@ -190,12 +193,12 @@ names %>%
 
 ```
 
-Dominik was the __4^th^ most popular name for boys in Austria in 1994__. Wow. I certainly did not expect that. That means that a typical first grade in 2000 had three Dominiks in their class room. The __most popular name of 1986__, Stefan, ran out of popularity and didn't even make the top 60 from 2018 on. The __60^th^ popular name of 1986__, Tobias, in contrast, entered the field in 1986, had a steady decline and is to the day among the most popular names.
+Dominik was the __4^th^ most popular name for boys in Austria in 1994__. Wow. I certainly did not expect that. That means that a representative first grade in 2000 had three Dominiks in their class room. The __most popular name of 1986__, Stefan, ran out of popularity and didn't even make the top 60 from 2018 on. The __60^th^ popular name of 1986__, Tobias, in contrast, entered the field in 1986, had a steady increase in popularity and is to this day amongst the most popular names.
 
 
-### What would be my girl name based on popularity?
+### What would be  my girl name based on popularity?
 
-What if my parents chose my name solely based on its popularity? Maybe they thought "it should be _popular_ but it shouldn't be _too_ popular but also not too unpopular, something like rank 20". Well, well, here I am, Dominik. But what if I were born as a girl, what would be my name then?
+What if my parents chose my name purely based on its popularity? Maybe they thought "it should be _popular_ but it shouldn't be _too_ popular but also _not too unpopular_, something like rank 20". Well, well, here I am, Dominik. If I were born as a girl, what would my name be?
 
 ```{r find-pendant, message=FALSE}
 names %>% 
@@ -243,7 +246,7 @@ names %>% group_by(name) %>% summarize(total = sum(absolute)) %>% arrange(desc(t
 
 ```
 
-Over 58,000 __Annas__ and over 51,000 __Lukas__. Impressive, but no big surprises here. Let's see how they rank over the years.
+Over 58,000 __Annas__ and over 51,000 __Lukas__. Impressive, but no big surprises here, there's Annas and Lukas everywhere all the time. Let's see how they rank over the years.
 
 ```{r plot5, fig.dim=c(9,5), warning=FALSE, message=FALSE}
 names %>%
@@ -265,11 +268,11 @@ names %>%
   theme_ft_rc()
 ```
 
-__Anna, leading the field since 1997, Lukas, leading the field since 1996.__ To my utter surprise, both names weren't that popular before 1990, ranking only at about 30 in the mid 1980s. But then, since the late 1990s, they both take the lead in every single year. Not sure what that says about Austrians but ok.
+__Anna, leading the field since 1997, Lukas, leading the field since 1996.__ To my surprise, both names weren't that popular before 1990, ranking only at about 30 in the mid 1980s. But then, in the late 1990s, they both take the lead __in every single year.__ Not sure what that says about Austrians but okay.
 
 ### Conclusion: Not so rare after all
 
-We've seen quite some different trends over time. The rise and fall of Dominik, the rise of Tobias and the fall of Stefan, the steep decline of Bettina, and the increase to the permanent top of Anna and Lukas. But back to the initial question if Dominik indeed is a rare name: Nes. Yo. While it was somewhat popular-ish when I was born (rank 20), it had a steep rise in popularity, peaking at being the 4^th^ most popular name for boys in Austria in 1994. Now, 27 later, the name is struggling to stay in the top 60 list.
+We've seen quite some different trends over time. The rise and fall of Dominik, the rise of Tobias and the fall of Stefan, the steep decline of Bettina, and the increase to the top of Anna and Lukas. But back to the initial question if Dominik indeed is as rare a name as I've been told throughout my childhood: Nes. Yo. While it was somewhat popular-ish when I was born (rank 20), it had a steep rise in popularity, peaking at being the 4^th^ most popular name for boys in Austria in 1994. Now, 27 later, the name is struggling to stay in the top 60 list.
 
 ### Check your own name's popularity!
 

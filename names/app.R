@@ -64,7 +64,7 @@ server = function(input, output) {
                     labs(title = paste0("Popularity of the name ", input_name, " in Austria per year"),
                          y = input_measure, 
                          x = "Year") +
-                    xlim(1980,2020) +
+                    xlim(1984,2020) +
                     theme_ft_rc()
               
       
