@@ -193,7 +193,7 @@ names %>%
 
 ```
 
-Dominik was the __4^th^ most popular name for boys in Austria in 1994__. Wow. I certainly did not expect that. That means that a representative first grade in 2000 had three Dominiks in their class room. The __most popular name of 1986__, Stefan, ran out of popularity and didn't even make the top 60 from 2018 on. The __60^th^ popular name of 1986__, Tobias, in contrast, entered the field in 1986, had a steady increase in popularity and is to this day amongst the most popular names.
+Dominik was the __4^th^ most popular name for boys in Austria in 1994__. Wow. I certainly did not expect that. With its almost 4 percent prevalence, this means that each representative first grade in 2000 had a Dominik in their class room. The __most popular name of 1986__, Stefan, ran out of popularity and didn't even make the top 60 from 2018 on. The __60^th^ popular name of 1986__, Tobias, in contrast, entered the field in 1986, had a steady increase in popularity and is to this day amongst the most popular names.
 
 
 ### What would be  my girl name based on popularity?

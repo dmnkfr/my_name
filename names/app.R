@@ -55,8 +55,23 @@ server = function(input, output) {
             
             input_name = input$name
             input_measure = tolower(input$measure)
-
-        data %>%
+            count = data %>% filter(name == input_name) %>% nrow()
+        
+        if (count == 1){
+        
+          data %>%
+            drop_na() %>% 
+            filter(name == input_name) %>% 
+                ggplot(aes(x = year, y = get(input_measure))) +
+                    geom_point(color = my_red, size = 6) +
+                    labs(title = paste0("Popularity of the name ", input_name, " in Austria per year"),
+                         y = input_measure, 
+                         x = "Year") +
+                    xlim(1984,2020) +
+                    theme_ft_rc()
+          
+        } else {
+          data %>%
             drop_na() %>% 
             filter(name == input_name) %>% 
                 ggplot(aes(x = year, y = get(input_measure))) +
@@ -66,8 +81,7 @@ server = function(input, output) {
                          x = "Year") +
                     xlim(1984,2020) +
                     theme_ft_rc()
-              
-      
+        }
     })
   }
 
