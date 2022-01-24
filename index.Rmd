@@ -92,6 +92,7 @@ names = rbind(girls, boys) %>%
   mutate(percent = round(percent, 2),
          cumulative = round(cumulative, 2))
 # now we have a tidy df, yay!
+head(names)
 ```
 
 ### Is "Dominik" even part of this list?

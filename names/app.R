@@ -14,7 +14,7 @@ library(bslib)
 library(hrbrthemes)
 hrbrthemes::import_roboto_condensed()
 
-my_red = "#DC2F1E"
+my_red = "#DC2F1E" 
 
 data = readRDS("all_name_data.RDS")
 unique_names = readRDS("unique_names.RDS") %>% arrange(name)
