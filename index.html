@@ -102,8 +102,10 @@ girls = names %&gt;%
 names = rbind(girls, boys) %&gt;%
   mutate(percent = round(percent, 2),
          cumulative = round(cumulative, 2))
+
 # now we have a tidy df, yay!
-head(names, 20) %&gt;% kable()</code></pre>
+
+head(names) %&gt;% kable()</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -169,132 +171,6 @@ head(names, 20) %&gt;% kable()</code></pre>
 <td align="right">777</td>
 <td align="right">1.91</td>
 <td align="right">18.23</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">7</td>
-<td align="left">Emma</td>
-<td align="right">687</td>
-<td align="right">1.69</td>
-<td align="right">19.91</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">8</td>
-<td align="left">Lea</td>
-<td align="right">651</td>
-<td align="right">1.60</td>
-<td align="right">21.52</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">9</td>
-<td align="left">Mia</td>
-<td align="right">632</td>
-<td align="right">1.55</td>
-<td align="right">23.07</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">10</td>
-<td align="left">Sarah</td>
-<td align="right">588</td>
-<td align="right">1.45</td>
-<td align="right">24.52</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">11</td>
-<td align="left">Johanna</td>
-<td align="right">568</td>
-<td align="right">1.40</td>
-<td align="right">25.91</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">12</td>
-<td align="left">Luisa</td>
-<td align="right">528</td>
-<td align="right">1.30</td>
-<td align="right">27.21</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">13</td>
-<td align="left">Chiara</td>
-<td align="right">524</td>
-<td align="right">1.29</td>
-<td align="right">28.50</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">14</td>
-<td align="left">Laura</td>
-<td align="right">503</td>
-<td align="right">1.24</td>
-<td align="right">29.74</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">15</td>
-<td align="left">Valentina</td>
-<td align="right">481</td>
-<td align="right">1.18</td>
-<td align="right">30.92</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">16</td>
-<td align="left">Leonie</td>
-<td align="right">455</td>
-<td align="right">1.12</td>
-<td align="right">32.04</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">17</td>
-<td align="left">Lina</td>
-<td align="right">423</td>
-<td align="right">1.04</td>
-<td align="right">33.08</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">18</td>
-<td align="left">Amelie</td>
-<td align="right">419</td>
-<td align="right">1.03</td>
-<td align="right">34.11</td>
-<td align="left">girls</td>
-</tr>
-<tr class="odd">
-<td align="right">2020</td>
-<td align="right">19</td>
-<td align="left">Lara</td>
-<td align="right">413</td>
-<td align="right">1.02</td>
-<td align="right">35.13</td>
-<td align="left">girls</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">20</td>
-<td align="left">Katharina</td>
-<td align="right">399</td>
-<td align="right">0.98</td>
-<td align="right">36.11</td>
 <td align="left">girls</td>
 </tr>
 </tbody>
